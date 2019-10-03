@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxilliary';
 import Burger from '../../Components/Burger/Burger';
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
+import Modal from '../../Components/UI/Modal/Modal';
+import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
 
 const ING_PRICES = {
     salad: 0.2,
@@ -19,7 +21,9 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 0,
             },
-        totalPrice: 2
+        totalPrice: 2,
+        purchasable: false,
+        modalShow: false,
         }
         
     ingAdded = (type) => {
@@ -28,6 +32,7 @@ class BurgerBuilder extends Component {
         updState[type] = updCount;
         const priceChange = ING_PRICES[type] + this.state.totalPrice;
         this.setState({ totalPrice: priceChange, ingredients: updState });
+        this.updatePurchasable(updState);
     }
 
     ingDeleted = (type) => {
@@ -36,7 +41,20 @@ class BurgerBuilder extends Component {
         updState[type] = updCount;
         const priceChange = this.state.totalPrice - ING_PRICES[type];
         this.setState({ totalPrice: priceChange, ingredients: updState });
-        
+        this.updatePurchasable(updState);
+    }
+
+    updatePurchasable = (ing) => {
+        const sum = Object.keys(ing).map(ingKey => {
+            return ing[ingKey];
+        }).reduce((sum,el) => {
+            return (sum+el);
+        },0);
+        this.setState({purchasable: sum > 0});
+    }
+
+    modalHandler = () => {
+        this.setState({modalShow: !this.state.modalShow});
     }
 
     render() { 
@@ -46,12 +64,11 @@ class BurgerBuilder extends Component {
         }
         return ( 
             <Aux>
-                <div>
-                    <Burger ingredients={this.state.ingredients}  />
-                </div>
-                <div>
-                    <BuildControls cMore={this.ingAdded} cLess={this.ingDeleted} disabled={disabledInfo} price={this.state.totalPrice} />
-                </div>
+                <Modal show={this.state.modalShow} >
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
+                <Burger ingredients={this.state.ingredients}  />
+                <BuildControls cMore={this.ingAdded} cLess={this.ingDeleted} disabled={disabledInfo} price={this.state.totalPrice} purchasable={this.state.purchasable} cOrder={this.modalHandler} />
             </Aux>
          );
     }

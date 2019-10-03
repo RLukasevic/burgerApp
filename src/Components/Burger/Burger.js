@@ -5,9 +5,9 @@ import styles from './Burger.module.css';
 
 const burger = (props) => {
     //SHOK
-    let transformedIngredients = Object.keys(props.ingredients).map(igKey => {
-        return [...Array(props.ingredients[igKey])].map((_,i) => {
-            return <Ingredient key={igKey + i} type={igKey}/>
+    let transformedIngredients = Object.keys(props.ingredients).map(ingKey => {
+        return [...Array(props.ingredients[ingKey])].map((_,i) => {
+            return <Ingredient key={ingKey + i} type={ingKey}/>
         });
     }).reduce((arr,el) => {
         return arr.concat(el);

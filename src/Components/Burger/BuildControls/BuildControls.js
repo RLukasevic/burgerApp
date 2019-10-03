@@ -17,6 +17,7 @@ const buildControls = (props) => {
             {controls.map(ctrl => (
                 <BuildControl key={ctrl.label} label={ctrl.label} cMore={() => props.cMore(ctrl.type)} cLess={() => props.cLess(ctrl.type)} disabled={props.disabled[ctrl.type]} />
             ))}
+            <button className={styles.OrderButton} disabled={!props.purchasable} onClick={props.cOrder}>ORDER</button>
         </div>
     );
 };
