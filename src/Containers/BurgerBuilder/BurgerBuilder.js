@@ -65,7 +65,7 @@ class BurgerBuilder extends Component {
         return ( 
             <Aux>
                 <Modal show={this.state.modalShow} cBackDrop={this.modalHandler} >
-                    <OrderSummary ingredients={this.state.ingredients} />
+                    <OrderSummary ingredients={this.state.ingredients} cCheckOut={this.modalHandler} cCancel={this.modalHandler} price={this.state.totalPrice} />
                 </Modal>
                 <Burger ingredients={this.state.ingredients}  />
                 <BuildControls cMore={this.ingAdded} cLess={this.ingDeleted} disabled={disabledInfo} price={this.state.totalPrice} purchasable={this.state.purchasable} cOrder={this.modalHandler} />
