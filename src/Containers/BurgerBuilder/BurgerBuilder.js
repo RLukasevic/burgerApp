@@ -4,6 +4,8 @@ import Burger from '../../Components/Burger/Burger';
 import BuildControls from '../../Components/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/UI/Modal/Modal';
 import OrderSummary from '../../Components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axiosOrders';
+import Spinner from '../../Components/UI/Spinner/Spinner';
 
 const ING_PRICES = {
     salad: 0.2,
@@ -23,6 +25,7 @@ class BurgerBuilder extends Component {
         totalPrice: 2,
         purchasable: false,
         modalShow: false,
+        loading: false
         }
         
     ingAdded = (type) => {
@@ -56,15 +59,49 @@ class BurgerBuilder extends Component {
         this.setState({modalShow: !this.state.modalShow});
     }
 
+    orderHandler = () => {
+        const order = {
+            ingredients: this.state.ingredients,
+            //in reality price should be on backend for safety reasons
+            price: this.state.totalPrice,
+            customer: {
+                name: 'Name',
+                address: {
+                    street: 'Allyson alley 8',
+                    zip: '345678',
+                    country: 'Country'
+                },
+                email: 'email@email.com',               
+            },
+            deliveryMethod: 'SonicSpeed'
+        }
+        this.setState({loading: true});
+        axios.post('/orders.json', order)
+            .then((response) => {
+                this.setState({loading: false});
+                console.log(response);
+                this.modalHandler();
+            })
+                .catch(e => {
+                    this.setState({loading: false});
+                    console.log(e);
+                    this.modalHandler();
+                }); 
+    }
+
     render() { 
         const disabledInfo = {...this.state.ingredients};
         for(let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
+        let orderSummary = <OrderSummary ingredients={this.state.ingredients} cCheckOut={this.orderHandler} cCancel={this.modalHandler} price={this.state.totalPrice} />;
+        if (this.state.loading) {
+            orderSummary = <Spinner />;
+        }
         return ( 
             <Aux>
                 <Modal show={this.state.modalShow} cBackDrop={this.modalHandler} >
-                    <OrderSummary ingredients={this.state.ingredients} cCheckOut={this.modalHandler} cCancel={this.modalHandler} price={this.state.totalPrice} />
+                    {orderSummary}
                 </Modal>
                 <Burger ingredients={this.state.ingredients}  />
                 <BuildControls cMore={this.ingAdded} cLess={this.ingDeleted} disabled={disabledInfo} price={this.state.totalPrice} purchasable={this.state.purchasable} cOrder={this.modalHandler} />

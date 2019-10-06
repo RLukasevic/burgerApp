@@ -9,7 +9,7 @@ import styles from './Layout.module.css';
 
 const Layout = (props) => {
 
-    const [showSide, changeShowSide] = useState(true);
+    const [showSide, changeShowSide] = useState(false);
 
     return (
         <Aux>
