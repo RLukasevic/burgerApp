@@ -97,7 +97,7 @@ class BurgerBuilder extends Component {
         let burger = this.state.error ? <p>Ingredients couldnt load</p> : <Spinner />;
         let orderSummary = null;
 
-        if (this.state.ingredients) {
+        if (this.state.ingredients !== null ) {
             const disabledInfo = {...this.state.ingredients};
             for(let key in disabledInfo) {
                 disabledInfo[key] = disabledInfo[key] <= 0
