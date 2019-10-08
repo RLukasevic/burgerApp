@@ -63,33 +63,47 @@ class BurgerBuilder extends Component {
     }
 
     orderHandler = () => {
-        const order = {
-            ingredients: this.state.ingredients,
-            //in reality price should be on backend for safety reasons
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Name',
-                address: {
-                    street: 'Allyson alley 8',
-                    zip: '345678',
-                    country: 'Country'
-                },
-                email: 'email@email.com',               
-            },
-            deliveryMethod: 'SonicSpeed'
-        }
-        this.setState({loading: true});
-        axios.post('/orders.json', order)
-            .then((response) => {
-                this.setState({loading: false});
-                console.log(response);
-                this.modalHandler();
-            })
-                .catch(e => {
-                    this.setState({loading: false});
-                    console.log(e);
-                    this.modalHandler();
-                }); 
+        // const order = {
+        //     ingredients: this.state.ingredients,
+        //     //in reality price should be on backend for safety reasons
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Name',
+        //         address: {
+        //             street: 'Allyson alley 8',
+        //             zip: '345678',
+        //             country: 'Country'
+        //         },
+        //         email: 'email@email.com',               
+        //     },
+        //     deliveryMethod: 'SonicSpeed'
+        // }
+        // this.setState({loading: true});
+        // axios.post('/orders.json', order)
+        //     .then((response) => {
+        //         this.setState({loading: false});
+        //         console.log(response);
+        //         this.modalHandler();
+        //     })
+        //         .catch(e => {
+        //             this.setState({loading: false});
+        //             console.log(e);
+        //             this.modalHandler();
+        //         }); 
+
+        //QUERY IF NEEDED
+        // const queryParams = [];
+        // for (let i in this.state.ingredients) {
+        //     queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        // }
+        // const queryString = queryParams.join('&');
+        //this.props.history.push({
+        //     pathname: '/checkout',
+        //     search: '?' + queryString,
+        // });
+
+        const stateToTransfer = [this.state.ingredients, this.state.totalPrice];
+        this.props.history.push('/checkout', stateToTransfer);
     }
 
     render() { 
