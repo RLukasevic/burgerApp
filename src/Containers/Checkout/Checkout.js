@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import CheckoutSummary from '../../Components/Order/CheckoutSummary/CheckoutSummary';
 import { Route } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
+import { connect } from 'react-redux';
 
 
 class Checkout extends Component {
-    state = { 
-        ingredients: {
-            salad: 1,
-            bacon: 1,
-            cheese: 1,
-            meat: 1,
-        },
-        totalPrice: null,
-     }
 
     componentDidMount() {
         console.log(this.props);
@@ -29,9 +21,9 @@ class Checkout extends Component {
 
 
 
-        const gotState = {...this.props.history.location.state};
-        this.setState({ingredients: gotState[0]});
-        this.setState({totalPrice: gotState[1]});
+        // const gotState = {...this.props.history.location.state};
+        // this.setState({ingredients: gotState[0]});
+        // this.setState({totalPrice: gotState[1]});
     }
 
     cCancelHandler() {
@@ -39,8 +31,8 @@ class Checkout extends Component {
     }
 
     cContinueHandler() {
-        const stateToTransfer = [this.state.ingredients, this.state.totalPrice];
-        this.props.history.replace('/checkout/contact-data', stateToTransfer);
+        // const stateToTransfer = [this.props.ings, this.props.totalPrice];
+        this.props.history.replace('/checkout/contact-data');
     }
 
 
@@ -48,11 +40,18 @@ class Checkout extends Component {
     render() { 
         return ( 
             <div>
-                <CheckoutSummary ingredients={this.state.ingredients} cCancel={() => this.cCancelHandler()} cContinue={() => this.cContinueHandler()}/>
+                <CheckoutSummary ingredients={this.props.ings} cCancel={() => this.cCancelHandler()} cContinue={() => this.cContinueHandler()}/>
                 <Route path={this.props.match.path + '/contact-data'} component={ContactData} />
             </div>
          );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
  
-export default Checkout;
+export default connect(mapStateToProps)(Checkout);

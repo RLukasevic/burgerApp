@@ -4,6 +4,7 @@ import styles from './ContactData.module.css';
 import axios from '../../../axiosOrders';
 import Input from '../../../Components/UI/Input/Input';
 import Spinner from '../../../Components/UI/Spinner/Spinner';
+import { connect } from 'react-redux';
 
 class ContactData extends Component {
     state = { 
@@ -77,8 +78,6 @@ class ContactData extends Component {
                 },
             },
         },
-        ingredients: null,
-        totalPrice: null,
         loading: false,
         formIsValid: false,
      }
@@ -111,9 +110,9 @@ class ContactData extends Component {
 
     componentDidMount = () => {
         console.log(this.props);
-        const gotState = {...this.props.history.location.state};
-        this.setState({ingredients: gotState[0]});
-        this.setState({totalPrice: gotState[1]});
+        // const gotState = {...this.props.history.location.state};
+        // this.setState({ingredients: gotState[0]});
+        // this.setState({totalPrice: gotState[1]});
         
     }
 
@@ -125,9 +124,9 @@ class ContactData extends Component {
         };
 
         const order = {
-            ingredients: this.state.ingredients,
+            ingredients: this.props.ings,
             //in reality price should be on backend for safety reasons
-            price: this.state.totalPrice,
+            price: this.props.totalPrice,
             customer: formData,
         }
         this.setState({loading: true});
@@ -198,5 +197,12 @@ class ContactData extends Component {
          );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
  
-export default ContactData;
+export default connect(mapStateToProps)(ContactData);
