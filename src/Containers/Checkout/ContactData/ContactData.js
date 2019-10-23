@@ -35,6 +35,7 @@ class ContactData extends Component {
                 touched: false,
                 validation: {
                     required: true,
+                    isEmail: true,
                 },
             },
             street: {
@@ -64,6 +65,7 @@ class ContactData extends Component {
                     // exactLength: 5,
                     minLength: 5,
                     maxLength: 5,
+                    isNumeric: true,
                 },
             },
             deliveryMethod: {
@@ -104,6 +106,16 @@ class ContactData extends Component {
 
         if(rules.maxLength) {
             isValid = value.length <= rules.maxLength && isValid
+        }
+        
+        if(rules.isEmail) {
+            const pattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if(rules.isNumeric) {
+            const pattern = /^\d+$/;
+            isValid = pattern.test(value) && isValid
         }
         
         return isValid;
