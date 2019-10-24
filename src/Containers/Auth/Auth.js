@@ -5,6 +5,7 @@ import Spinner from '../../Components/UI/Spinner/Spinner';
 import styles from './Auth.module.css';
 import * as authActions from '../../store/actions/index';
 import { connect } from 'react-redux';
+import reducer from '../../store/reducers/burgerBuilder';
 
 class Auth extends Component {
     state = { 
@@ -125,10 +126,16 @@ class Auth extends Component {
         if (this.props.loading) {
             form = <Spinner/>
         }
+        
+        let error = null;
+        if(this.props.error) {
+            error = <p style={{color: 'red'}} >{this.props.error}</p>;
+        }
 
 
         return ( 
-            <div className={styles.Auth}>
+            <div className={styles.Auth}>       
+                {error}
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType='Success' >Submit</Button>

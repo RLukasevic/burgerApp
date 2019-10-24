@@ -34,15 +34,15 @@ export const auth = (email, password, isSigningUp) => {
         if (!isSigningUp) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDxNnPSinjBkQ9-JUNv-Rbb3zlK2pxkKyE';
         } 
-        
+
         axios.post(url,authData)
         .then(res => {
             console.log(res.data);
             dispatch(authSuccess(res.data));
          } )
         .catch(e => {
-             console.log(e);
-            dispatch(authFail(e));
+             console.log(e.response.data.error.message);
+            dispatch(authFail(e.response.data.error.message));
         } )
         
     };
