@@ -18,7 +18,9 @@ class BurgerBuilder extends Component {
         }
 
     componentDidMount() {
-        this.props.onInitIngredients();
+        if(!this.props.ings) {
+            this.props.onInitIngredients();
+         } 
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +132,7 @@ class BurgerBuilder extends Component {
                     <Burger ingredients={this.props.ings}  />
                     <BuildControls cMore={this.props.onIngAdded} cLess={this.props.onIngRemoved} disabled={disabledInfo} price={this.props.totalPrice} purchasable={this.updatePurchasable(this.props.ings)} cOrder={this.modalHandler} />
                 </Aux>);
-        orderSummary = <OrderSummary ingredients={this.props.ings} cCheckOut={this.orderHandler} cCancel={this.modalHandler} price={this.props.totalPrice} />;
+        orderSummary = <OrderSummary ingredients={this.props.ings} cCheckOut={this.orderHandler} cCancel={this.modalHandler} price={this.props.totalPrice} history={this.props.history} isAuth={this.props.isAuth}/>;
         }
 
         return ( 
@@ -149,6 +151,7 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         totalPrice: state.burgerBuilder.totalPrice,
         error: state.burgerBuilder.error,
+        isAuth: state.auth.authData.idToken,
     };
 }
 

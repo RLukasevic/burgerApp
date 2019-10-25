@@ -4,6 +4,7 @@ import Toolbar from '../Navigation/Toolbar/Toolbar';
 import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 import BackDrop from '../UI/BackDrop/BackDrop';
 import styles from './Layout.module.css';
+import { connect } from 'react-redux';
 
 
 
@@ -13,8 +14,8 @@ const Layout = (props) => {
 
     return (
         <Aux>
-            <Toolbar cMenu={() => changeShowSide(!showSide)}/> 
-            <SideDrawer show={showSide} cBackDrop={() => changeShowSide(!showSide)}/>
+            <Toolbar cMenu={() => changeShowSide(!showSide)} isAuth={props.isAuth} /> 
+            <SideDrawer show={showSide} cBackDrop={() => changeShowSide(!showSide)} isAuth={props.isAuth} />
             <BackDrop />
             <main className={styles.Content}>
                 {props.children}
@@ -23,4 +24,10 @@ const Layout = (props) => {
     );
 }
 
-export default Layout;
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.authData.idToken,
+    }
+}
+
+export default connect(mapStateToProps)(Layout);

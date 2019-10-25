@@ -20,7 +20,7 @@ const sideDrawer = (props) => {
         <div className={mergedStyles.join(' ')} >
             <Logo height='10%' />
             <nav>
-                <NavigationItems  />
+                <NavigationItems isAuth={props.isAuth} />
             </nav>
         </div>
         <BackDrop show={props.show} cBackDrop={props.cBackDrop}/>

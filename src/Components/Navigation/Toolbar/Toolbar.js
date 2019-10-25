@@ -10,7 +10,7 @@ const toolbar = (props) => {
             <ToggleButton cMenu={props.cMenu} />
             <Logo height='70%' />
             <nav className={styles.DesktopOnly}>
-                <NavigationItems />
+                <NavigationItems isAuth={props.isAuth}/>
             </nav>
         </header>
     );

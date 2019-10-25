@@ -16,18 +16,21 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.AUTH_START: return authStart(state, action)
+        case actionTypes.AUTH_START: return authStart(state)
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action)
         case actionTypes.AUTH_FAIL: return authFail(state, action)
+        case actionTypes.AUTH_LOGOUT: return authLogout(state)
+        case actionTypes.AUTH_CLEAR_ERROR: return authClearError(state)
 
         default: return state;
     }
 }
 
-const authStart = (state, action) => {
+const authStart = (state) => {
     return {
         ...state,
         loading: true,
+        error: null,
     };
 }
 
@@ -53,6 +56,28 @@ const authFail = (state, action) => {
         error: action.error,
         loading: false,
     };
+}
+
+const authLogout = (state) => {
+    return {
+        ...state,
+        authData: {
+            ...state.authData,
+            email: null,
+            displayName: null,
+            idToken: null,
+            registered: false,
+            refreshToken: null,
+            id: null,
+        },
+    }
+}
+
+const authClearError = state => {
+    return{
+        ...state,
+        error: null,
+    }
 }
 
 export default reducer;

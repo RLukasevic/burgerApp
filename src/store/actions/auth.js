@@ -1,6 +1,12 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+export const authClearError = () => {
+    return {
+        type: actionTypes.AUTH_CLEAR_ERROR
+    }
+}
+
 export const authStart = () => {
     return {
         type: actionTypes.AUTH_START,
@@ -21,6 +27,20 @@ export const authFail = (error) => {
     };
 };
 
+export const authLogout = () => {
+    return {
+        type: actionTypes.AUTH_LOGOUT,
+    };
+};
+
+export const authAutoLogout = (timeout) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(authLogout());
+        }, timeout * 1000);
+    }
+}
+
 export const auth = (email, password, isSigningUp) => {
     return dispatch => {
         dispatch(authStart());
@@ -35,10 +55,11 @@ export const auth = (email, password, isSigningUp) => {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDxNnPSinjBkQ9-JUNv-Rbb3zlK2pxkKyE';
         } 
 
-        axios.post(url,authData)
+        axios.post(url, authData)
         .then(res => {
             console.log(res.data);
             dispatch(authSuccess(res.data));
+            dispatch(authAutoLogout(res.data.expiresIn));
          } )
         .catch(e => {
              console.log(e.response.data.error.message);

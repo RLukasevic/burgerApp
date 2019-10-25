@@ -5,7 +5,8 @@ import Spinner from '../../Components/UI/Spinner/Spinner';
 import styles from './Auth.module.css';
 import * as authActions from '../../store/actions/index';
 import { connect } from 'react-redux';
-import reducer from '../../store/reducers/burgerBuilder';
+import { Redirect } from 'react-router-dom';
+
 
 class Auth extends Component {
     state = { 
@@ -39,7 +40,7 @@ class Auth extends Component {
                 },
             },
         },
-        isSignup: true,
+        isSignup: false,
      }
 
      checkValidity(value, rules) {
@@ -69,6 +70,13 @@ class Auth extends Component {
         
         return isValid;
      }
+
+    componentDidMount() {
+        if(this.props.error) {
+            this.props.authClearError();
+        }
+    }
+
 
      onChangeHandler = (event, controlName) => {
         const newControls = {
@@ -119,9 +127,12 @@ class Auth extends Component {
         );
         
         let mode = 'Sign In';
+        let revMode = 'Sign Up'
         if(!this.state.isSignup) {
             mode = 'Sign Up';
+            revMode = 'Sign In';
         }
+        
 
         if (this.props.loading) {
             form = <Spinner/>
@@ -132,15 +143,25 @@ class Auth extends Component {
             error = <p style={{color: 'red'}} >{this.props.error}</p>;
         }
 
+        let authOutput = null;
+        if(this.props.token !== null) {
+            if(this.props.ingredients.salad !== 0 || this.props.ingredients.bacon !== 0 || this.props.ingredients.cheese !== 0 || this.props.ingredients.meat !== 0) {
+                authOutput = <Redirect to='/checkout'/>
+            } else {
+                authOutput = <Redirect to='/' />
+            };
+        }
 
         return ( 
             <div className={styles.Auth}>       
                 {error}
                 <form onSubmit={this.submitHandler}>
+                    <p>Please {revMode}</p>
                     {form}
                     <Button btnType='Success' >Submit</Button>
                 </form>
                 <Button btnType='Danger' clicked={this.switchAuthModeHandler}>Switch to {mode}</Button>
+                {authOutput}
             </div>
          );
     }
@@ -148,14 +169,17 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
+        ingredients: state.burgerBuilder.ingredients,
         loading: state.auth.loading,
         error: state.auth.error,
+        token: state.auth.authData.idToken,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         auth: (email,password,isSigningUp) => dispatch(authActions.auth(email,password,isSigningUp)),
+        authClearError: () => dispatch(authActions.authClearError()),
     }
 }
  
