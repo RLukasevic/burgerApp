@@ -37,7 +37,6 @@ const pBurgFail = (state) => {
         ...state,
         error: true,
         loading: false,
-        purchased: false,
     };
 }
 
