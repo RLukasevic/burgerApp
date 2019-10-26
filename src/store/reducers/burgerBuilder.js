@@ -26,24 +26,28 @@ const reducer = (state = initialState, action) => {
 }
 
 const addIng = (state, action) => {
+    let newPrice = state.totalPrice + ING_PRICES[action.ingredientName];
+    newPrice = +newPrice.toFixed(2);
     return {
         ...state,
         ingredients: {
             ...state.ingredients,
             [action.ingredientName]: state.ingredients[action.ingredientName] +1
         },
-        totalPrice: state.totalPrice + ING_PRICES[action.ingredientName]
+        totalPrice: newPrice,
     };
 }
 
 const removeIng = (state, action) => {
+    let newPrice = state.totalPrice - ING_PRICES[action.ingredientName];
+    newPrice = +newPrice.toFixed(2);
     return {
         ...state,
         ingredients: {
             ...state.ingredients,
             [action.ingredientName]: state.ingredients[action.ingredientName] -1
         },
-        totalPrice: state.totalPrice - ING_PRICES[action.ingredientName]
+        totalPrice: newPrice,
     };
 }
 
