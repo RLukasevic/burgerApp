@@ -7,6 +7,7 @@ import Spinner from '../../../Components/UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as orderActions from '../../../store/actions/index';
+import { checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = { 
@@ -85,50 +86,6 @@ class ContactData extends Component {
         formIsValid: false,
      }
 
-     checkValidity(value, rules) {
-        let isValid = true;
-
-        // if(!rules) {
-        //     return true;
-        // }
-
-        if(rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        // if(rules.exactLength) {
-        //     isValid = value.length == rules.exactLength;
-        // }
-
-        if(rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid
-        }
-
-        if(rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid
-        }
-        
-        if(rules.isEmail) {
-            const pattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
-            isValid = pattern.test(value) && isValid
-        }
-
-        if(rules.isNumeric) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid
-        }
-        
-        return isValid;
-     }
-
-    componentDidMount = () => {
-        console.log(this.props);
-        // const gotState = {...this.props.history.location.state};
-        // this.setState({ingredients: gotState[0]});
-        // this.setState({totalPrice: gotState[1]});
-        
-    }
-
     cConfirmHandler = (event) => {
         event.preventDefault();
         const formData = {};
@@ -152,7 +109,7 @@ class ContactData extends Component {
         const newOrderForm = {...this.state.orderForm};
         const updatedOrderFormElement = {...newOrderForm[inputID]};
         updatedOrderFormElement.value = event.target.value;
-        updatedOrderFormElement.valid = this.checkValidity(updatedOrderFormElement.value, updatedOrderFormElement.validation);
+        updatedOrderFormElement.valid = checkValidity(updatedOrderFormElement.value, updatedOrderFormElement.validation);
         updatedOrderFormElement.touched = true;
         newOrderForm[inputID] = updatedOrderFormElement;
 

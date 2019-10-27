@@ -6,6 +6,7 @@ import styles from './Auth.module.css';
 import * as authActions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { checkValidity } from '../../shared/utility';
 
 
 class Auth extends Component {
@@ -43,34 +44,6 @@ class Auth extends Component {
         isSignup: false,
      }
 
-     checkValidity(value, rules) {
-        let isValid = true;
-
-        if(rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if(rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid
-        }
-
-        if(rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid
-        }
-
-        if(rules.isEmail) {
-            const pattern = /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i;
-            isValid = pattern.test(value) && isValid
-        }
-
-        if(rules.isNumeric) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid
-        }
-        
-        return isValid;
-     }
-
     componentDidMount() {
         if(this.props.error) {
             this.props.authClearError();
@@ -84,7 +57,7 @@ class Auth extends Component {
             [controlName]: {
                 ...this.state.controls[controlName], 
                 value: event.target.value, 
-                valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
+                valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
                 touched: true,
             }
         };
@@ -97,7 +70,6 @@ class Auth extends Component {
     }
 
     switchAuthModeHandler = () => {
-        console.log('switching mode')
         this.setState(prevState => {
             return {isSignup: !prevState.isSignup};
         });
