@@ -10,7 +10,7 @@ class Orders extends Component {
 
 
     componentDidMount = () => {
-        this.props.fetchOrders(this.props.token);
+        this.props.fetchOrders(this.props.token,this.props.id);
         if(this.props.purchased) {
             this.props.onInitIngredients();
             this.props.onInitPurchase();
@@ -45,12 +45,13 @@ const mapStateToProps = state => {
         loading: state.order.loading,
         token: state.auth.authData.idToken,
         purchased: state.order.purchased,
+        id: state.auth.authData.id,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOrders: (token) => dispatch(actions.fetchOrders(token)),
+        fetchOrders: (token,id) => dispatch(actions.fetchOrders(token,id)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
         onInitPurchase: () => dispatch(actions.purchaseInit()),
     }

@@ -141,6 +141,7 @@ class ContactData extends Component {
             //in reality price should be on backend for safety reasons
             price: this.props.totalPrice,
             customer: formData,
+            customerId: this.props.id,
         }
         this.props.purchaseBurgerStart(order, this.props.token);
         // this.props.history.push('/my-orders');
@@ -207,6 +208,7 @@ const mapStateToProps = state => {
         totalPrice: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
         token: state.auth.authData.idToken,
+        id: state.auth.authData.id,
     }
 }
 
