@@ -11,7 +11,7 @@ import axios from '../../axiosOrders';
 import * as actions from '../../store/actions/index';
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = { 
         // purchasable: false,
         modalShow: false,
@@ -45,9 +45,9 @@ class BurgerBuilder extends Component {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    updatePurchasable = (ing) => {
-        const sum = Object.keys(ing).map(ingKey => {
-            return ing[ingKey];
+    updatePurchasable = (ings) => {
+        const sum = Object.keys(ings).map(ingKey => {
+            return ings[ingKey];
         }).reduce((sum,el) => {
             return (sum+el);
         },0);
