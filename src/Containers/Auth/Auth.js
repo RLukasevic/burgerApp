@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../../Components/UI/Input/Input';
 import Button from '../../Components/UI/Button/Button';
 import Spinner from '../../Components/UI/Spinner/Spinner';
+import Modal from '../../Components/UI/Modal/Modal';
 import styles from './Auth.module.css';
 import * as authActions from '../../store/actions/index';
 import { connect } from 'react-redux';
@@ -42,6 +43,7 @@ class Auth extends Component {
             },
         },
         isSignup: false,
+        modalShow: true,
      }
 
     componentDidMount() {
@@ -73,6 +75,10 @@ class Auth extends Component {
         this.setState(prevState => {
             return {isSignup: !prevState.isSignup};
         });
+    }
+
+    modalHandler = () => {
+        this.setState({modalShow: !this.state.modalShow});
     }
 
 
@@ -117,8 +123,12 @@ class Auth extends Component {
 
         let authOutput = null;
         if(this.props.token !== null) {
-            if(this.props.ingredients.salad !== 0 || this.props.ingredients.bacon !== 0 || this.props.ingredients.cheese !== 0 || this.props.ingredients.meat !== 0) {
-                authOutput = <Redirect to='/checkout'/>
+            if(this.props.ingredients) {
+                if(this.props.ingredients.salad !== 0 || this.props.ingredients.bacon !== 0 || this.props.ingredients.cheese !== 0 || this.props.ingredients.meat !== 0) {
+                    authOutput = <Redirect to='/checkout'/>
+                } else {
+                    authOutput = <Redirect to='/' />
+                };
             } else {
                 authOutput = <Redirect to='/' />
             };
@@ -134,6 +144,11 @@ class Auth extends Component {
                 </form>
                 <Button btnType='Danger' clicked={this.switchAuthModeHandler}>Switch to {mode}</Button>
                 {authOutput}
+                <Modal show={this.state.modalShow} cBackDrop={this.modalHandler} >
+                    <h4>Testing data</h4>
+                    <p>login: test@test.test</p>
+                    <p>password: testtest</p>
+                </Modal>
             </div>
          );
     }
