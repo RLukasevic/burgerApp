@@ -1,7 +1,23 @@
-Clients side app which was made in NativeScript environment for android devices.
+A course-project of a React course (Maximilian Schwarzmuller`s 'React - The Complete Guide' from udemy).
 
-Used ES6 JavaScript, XML markup, CSS(very restricted version of it which NativeScript supports) as well as few packages for http requesting and some additional CSS features.
+Got introduced to React SinglePageApp developing principals, theoretically understanding the work of whole React provided environment and using all the core features in this project.
 
-This was a great starting project(although it is not quite finished), doing which I got introduced to JavaScript classes, OOP, working with RESTful APIs and some styling tricks.
+Learned about **React** class components and their lifecycle hooks as well as functional components and using their hooks.
 
-The file structure is kind of messy and for sure could be done better, but at some point I discovered the power of frameworks and decided to leave this project be for the greater time to finish it :)
+Provided App with "reactive" landing for mobile devices.
+
+Did the validation forms using regEx for the information user inputs while ordering/signing in.
+
+Implemented **Redux** state management to the app via using reducers, actions, actionTypes and working with **AJAX** and **RESTful APIs**(used Google firebase database for it).
+
+Implemented Authentication and visualising different page for auth/noAuth users, saving users data and reusing it.
+
+Implemented "**lazy-loading**" of components to practice network optimization.
+
+Got introduced to Unit Testing of components using **JEST/Enzyme** and wrote a few simple tests.
+
+To sum things up, learned how the project is built and deployed(used Google firebase hosting).
+
+You can see the deployed version of this project at
+
+https://burger-4d2ab.firebaseapp.com/
