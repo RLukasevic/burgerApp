@@ -1,6 +1,6 @@
 A course-project of a React course (Maximilian Schwarzmuller`s 'React - The Complete Guide' from udemy).
 
-Got introduced to React SinglePageApp developing principals, theoretically understanding the work of whole React provided environment and using all the core features in this project.
+Got introduced to React SinglePageApp developing principals, theoretically understanding the work of React provided environment and using all the core features in this project.
 
 Learned about **React** class components and their lifecycle hooks as well as functional components and using their hooks.
 
