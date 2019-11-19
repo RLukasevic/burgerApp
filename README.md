@@ -4,7 +4,7 @@ Got introduced to React SinglePageApp developing principals, theoretically under
 
 Learned about **React** class components and their lifecycle hooks as well as functional components and using their hooks.
 
-Provided App with "reactive" landing for mobile devices.
+Provided App with responsivity for mobile devices.
 
 Did the validation forms using regEx for the information user inputs while ordering/signing in.
 
